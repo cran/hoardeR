@@ -1,4 +1,4 @@
-sendFA <- function(FAseq, database="chromosome",hl_size=20,program="blastn", filter="L", expect=10, email, method="POST"){
+sendFA <- function(FAseq, database, hl_size=20, program="blastn", filter="L", expect=10, email, method="POST"){
  if(method=="PUT"){
    blastRun <- scan(paste("http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?QUERY=",FAseq,"&DATABASE=",database,"&HITLIST_SIZE=",hl_size,"&FILTER=",filter,"&EXPECT=",expect,"&PROGRAM=",program,"&CLIENT=web&SERVICE=plain&NCBI_GI=on&PAGE=Nucleotides&CMD=Put&EMAIL=",email,"&TOOL=hoardeR" ,sep=""),what="raw")
    RIDNo <- which((blastRun=="RID")==TRUE)

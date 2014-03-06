@@ -1,4 +1,7 @@
-blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xmlFolder=NULL, keepInMemory=TRUE){
+# TODO:
+# Keep the timing values and return them also as a result
+
+blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xmlFolder=NULL, keepInMemory=TRUE, database="chromosome", verbose=TRUE){
 
 # Polite system sleeps as requested from NCBI  
   if(delay_req<3) stop("Sending more requests than once every 3 seconds is considered to be rude from NCBI!")  
@@ -13,7 +16,7 @@ blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xml
   writeXML <- FALSE
   if(!is.null(xmlFolder)){
     writeXML <- TRUE
-    # Check still, if the last symbol is a slash, if not, add it there.
+    dir.create(xmlFolder, showWarnings = FALSE)
   }
   
 # Store here the blast RIDs
@@ -28,7 +31,7 @@ blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xml
   while(ready < totalSeq){
     if((curRunning < n_blast) & (sendThis <= totalSeq)){
       Sys.sleep(delay_req)
-      RID[sendThis] <- sendFA(seq[sendThis],email=email)
+      RID[sendThis] <- sendFA(seq[sendThis],email=email, database=database)
       curRunning <- curRunning + 1    
       active <- c(active,sendThis)
       sendThis <- sendThis + 1
@@ -54,10 +57,14 @@ blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xml
         }
       }
     }
-    cat("Missing:",totalSeq-ready,"\n")
-    cat("Running:",active,"\n")
-    cat("Finished:",ready,"\n")
-    cat("---------------------------------------------------------------\n")
+    if(verbose){
+      cat("Missing:",totalSeq-ready,"\n")
+      cat("Running:",active,"\n")
+      cat("Finished:",ready,"\n")
+      cat("---------------------------------------------------------------\n")
+    }
   }
- res
+ result <- list(RID=RID, res=res, database=database)
+ class(result) <- "blastRes"
+ result
 }
