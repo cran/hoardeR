@@ -6,7 +6,7 @@
 }
 
 \description{
-  This function extracts the gene locations from an imported gtf file.
+  This function extracts the gene locations from an imported gtf or gff3 file.
 }
 \usage{
   getGeneLocation(gtf)

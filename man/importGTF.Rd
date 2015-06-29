@@ -9,11 +9,13 @@
   This function imports a gtf file.
 }
 \usage{
-  importGTF(gtf)
+  importGTF(gtf, skip = 0, nrow = -1)
 }
 
 \arguments{
-  \item{gtf}{File name of the gtf file}
+  \item{gtf}{File name of the gtf file.}
+  \item{skip}{Rows to skip from the top.}
+  \item{nrow}{Total amount of rows read.}
 }
 
 \details{

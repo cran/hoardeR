@@ -22,16 +22,20 @@
  corresponding sequences.
 }
 \value{
-  A vector containg the sequences. The vector names coorespond to the sequence names given in the fasta file.
+ An object of class \code{fa} containing the sequences. The names coorespond to the sequence names given in the fasta file.
 }
 
 \author{
   Daniel Fischer
 }
 
+\seealso{
+\code{\link{print.fa}}, \code{\link{summary.fa}}
+}
+
 \examples{
 \dontrun{
-importFA("/home/data/myFasta.fa")
+importFA(file="myFasta.fa")
 }
 }
 

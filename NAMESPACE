@@ -1,3 +1,17 @@
-import(httr, XML, stringr)
+import(httr, XML, stringr, MASS, R.utils, stats, graphics)
+importFrom(utils, read.table)
+importFrom(utils, write.table)
+importFrom(utils, read.csv)
 
-export(importFA, blastSeq, getEnsgInfo, getGeneLocation, getGeneSeq, importXML, importGTF, importGFF3)
+export(importFA, blastSeq, getEnsgInfo, getGeneLocation, getGeneSeq, importXML, importGTF, importGFF3, importPedMap,
+       importBlastTab, subDose, subPhased, subGprobs, getAssemblies, speciesFigure)
+
+S3method(print,ensgInfo)
+S3method(summary,ensgInfo)
+S3method(print,fa)
+S3method(summary,fa)
+S3method(print,pedMap)
+S3method(summary,pedMap)
+S3method(plot,xmlImport)
+S3method(print,xmlImport)
+S3method(summary,xmlImport)

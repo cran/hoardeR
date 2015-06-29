@@ -7,5 +7,6 @@
                                          rows are alternating.")
     seq <- res[seq(2,length(res),2)]
     names(seq) <- res[seq(1,length(res)-1,2)]
+    class(seq) <- "fa"
     seq
 } 

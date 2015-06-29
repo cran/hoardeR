@@ -1,29 +1,28 @@
 
-importXML <- function(seqNames, folder, which=c(1,2), idTH = 0.8, verbose=TRUE){
+importXML <- function(fa, folder, idTH = 0.8, verbose=TRUE){
+  
+  seqNames <- names(fa)
+  
   # Get the filenames and statistics about how many XML files we have
   fileList <- list.files(folder)
   seqNamesFolder <- unlist(strsplit(fileList,".xml"))
   foundNames <- sum(is.element(seqNames,seqNamesFolder))
   foundNames2 <- sum(is.element(seqNamesFolder,seqNames))
   if(verbose==TRUE){
-    cat("Given amount of sequences:", length(seqNames),"\n")
+    cat("Given amount of sequences in fa object:", length(seqNames),"\n")
     cat("XML files in folder:", length(seqNamesFolder),"\n")
-    cat("Folder Files in requested list:", foundNames,"(",foundNames/length(seqNamesFolder)*100,"%)\n")  
-    cat("Requested list in folder:", foundNames2,"(",foundNames2/length(seqNames)*100,"%)\n")  
+    cat("No. of files to import from requested list/given fa object:", foundNames,"(",foundNames/length(seqNamesFolder)*100,"%)\n")  
+    cat("FA object names in XML folder:", foundNames2,"(",foundNames2/length(seqNames)*100,"%)\n")  
   }
   # Adjust the importable files to the available ones
-  # ADJUST THE CODE HERE THAT EVERYTHING GOES SMOOTH AND THE WARNING IS OBSOLENT!!!!
-  if(sum(is.element(seqNamesFolder,seqNames))!=length(seqNamesFolder)) warning("Please check the which settings, due to missing files the wrong
-                                                                               ones might have been imported!") 
   seqNamesFolder <- seqNamesFolder[is.element(seqNamesFolder,seqNames)]
   result <- list()
   # Set which XML files we want to import
-  if(is.null(which)){
-    which <- 1:length(seqNamesFolder)
-  } 
+    takeThese <- 1:length(seqNamesFolder)
+  
   # Go one by one through the XML files and write the results into the list results
   runningIndex <- 1
-  for(i in which){
+  for(i in takeThese){
     # Read in the XML file line by line
     res <- readLines(paste(folder,fileList[i],sep=""))
     # Extract the necessary information
@@ -80,6 +79,7 @@ importXML <- function(seqNames, folder, which=c(1,2), idTH = 0.8, verbose=TRUE){
     runningIndex <- runningIndex + 1
     if(verbose) if(runningIndex%%10==0) cat(runningIndex,"XML files processed.\n")
   }
-  names(result) <- seqNamesFolder[which]
+  names(result) <- seqNamesFolder[takeThese]
+  class(result) <- "xmlImport"
   result
 }

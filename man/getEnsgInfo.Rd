@@ -13,7 +13,7 @@
 }
 
 \arguments{
-  \item{ensg}{Ensemble ID (\code{String}).}
+  \item{ensg}{Ensemble ID.}
 }
 
 \details{

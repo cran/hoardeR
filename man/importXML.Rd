@@ -9,13 +9,12 @@
   This function imports a xml file produced from \code{blastSeq}.
 }
 \usage{
-  importXML(seqNames, folder, which=c(1,2), idTH = 0.8, verbose=TRUE)
+  importXML(fa, folder, idTH = 0.8, verbose=TRUE)
 }
 
 \arguments{
-  \item{seqNames}{Sequence names.}
-  \item{folder}{Fodler , where the xml files are stored.}
-  \item{which}{Which of the provided sequence names should be imported.}
+  \item{fa}{Sequence names.}
+  \item{folder}{Folder , where the xml files are stored.}
   \item{idTH}{Identity threshold, see details.}
   \item{verbose}{Logical, function give status messages.}
 }

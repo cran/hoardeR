@@ -7,12 +7,12 @@
 }
 
 \description{
-  The hoardeR package is designed for collecting and retrieving data from
-  various sources. The current main focus is on setting up a connection to
+  The hoardeR package is designed for collecting, retrieving and transforming data
+  from various sources. The current main focus is on setting up a connection to
   the NCBI Blast service. Also, the gene information for Ensemble Genes can
   be retrieved from NCBI.
-  Methods for visualizing the results is currently under development. The
-  latest 'night-build' can be retrieved from
+  Methods for visualizing the results are currently under development. The latest
+  'night-build' of the package can be retrieved from
   
   https://github.com/fischuu/hoardeR
 }
@@ -21,17 +21,17 @@
   \tabular{ll}{
     Package: \tab hoardeR\cr
     Type: \tab Package\cr
-    Version: \tab 0.0-2\cr
-    Date: \tab 2014-03-06\cr
+    Version: \tab 0.1\cr
+    Date: \tab 2015-06-29\cr
     License: \tab GPL\cr
     LazyLoad: \tab yes\cr
   }
 }
 
 \author{
-  Daniel Fischer
+  Daniel Fischer, Anu Sironen
 
-  Maintainer: Daniel Fischer <daniel.fischer@mtt.fi>
+  Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
 }
 
 \keyword{multivariate}
