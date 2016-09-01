@@ -2,11 +2,11 @@
 \alias{getGeneLocation}
 
 \title{
- Extracting Gene Locations.
+ Extracting Gene Locations
 }
 
 \description{
-  This function extracts the gene locations from an imported gtf or gff3 file.
+  This function extracts the gene locations from an imported gtf file.
 }
 \usage{
   getGeneLocation(gtf)

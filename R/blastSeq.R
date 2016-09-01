@@ -1,4 +1,8 @@
-blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xmlFolder=NULL, logFolder=NULL, keepInMemory=TRUE, database="chromosome", verbose=TRUE, createLog=FALSE){
+# TODO:
+# Keep the timing values and return them also as a result
+
+blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xmlFolder=NULL, logFolder=NULL, keepInMemory=TRUE, database="chromosome", verbose=TRUE, createLog=TRUE){
+
 
   startTime <- Sys.time()
   
@@ -24,7 +28,7 @@ blastSeq <- function(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, xml
   if(createLog){
     if(is.null(logFolder)){
       if(is.null(xmlFolder)){
-        stop("No log/xml path given. For small projects, please use the option 'createLog=FALSE'")
+        stop("No log/xml path given.")
       } else {
         logFolder <- strsplit(xmlFolder,"/")[[1]]
         logFolder <- logFolder[nchar(logFolder)>0]

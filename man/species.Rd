@@ -1,19 +1,22 @@
+\docType{data}
 \name{species}
 \alias{species}
-\title{
-Species Name for Blast Search
+\title{Available species at Ensembl}
+\format{A data frame with 87 species.}
+\source{
+As downloaded on 20.6.2016 from
+
+http://www.ensembl.org/info/about/species.html
 }
 \description{
-Standardized species names for blast search.
+This is a list of all organisms/species that are provided by Ensembl and hence could end up in the Blast run. Further, it defines the default versions of
+the assuemblies that will be downloaded if no further version is specified in \code{plotHit}, \code{getAnnotation} or \code{getFastaFromBed}.
 }
-\usage{
-species
-}
-\format{
-  This vector contains 134 species names.
-}
-\note{
- Note, the names have been extracted on 1.6.2014 from the NCBI server.
+\examples{
+
+data(species)
+summary(species) 
+
 }
 \keyword{datasets}
- 
+

@@ -1,5 +1,5 @@
 getEnsgInfo <- function(ensg){
-  result <- data.frame(ENSG=".", GeneName=".", GeneFull=".", GeneType=".", Summary=".", PubMedHits=".", stringsAsFactors=FALSE)
+  result <- data.frame(ENSG=".", OffName=".", OffFull=".", GeneType=".", Summary=".", PubMedHits=".", stringsAsFactors=FALSE)
   for(i in 1:length(ensg)){
     NCBIans <- scan(paste("http://www.ncbi.nlm.nih.gov/gene/?term=",ensg[i],sep=""), what="raw")
 
@@ -55,12 +55,11 @@ getEnsgInfo <- function(ensg){
     pubMedCites <- substr(pubMedCites,2,nchar(pubMedCites)-1)
     #pubMedCites <- as.numeric(pubMedCites)
     
-    temp <- data.frame(ENSG=ensg[i], GeneName=offName, GeneFull=offFull, GeneType=geneType, Summary=sumText, PubMedHits=pubMedCites, stringsAsFactors=FALSE)
+    temp <- data.frame(ENSG=ensg[i], OffName=offName, OffFull=offFull, GeneType=geneType, Summary=sumText, PubMedHits=pubMedCites, stringsAsFactors=FALSE)
     result <- rbind(result,temp)
   }
   result <- result[-1,]
   result$PubMedHits <- as.numeric(result$PubMedHits)
   rownames(result) <- 1:nrow(result)
-  class(result) <- "ensgInfo"
   result
 }

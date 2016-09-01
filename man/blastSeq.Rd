@@ -11,11 +11,11 @@
 \usage{
   blastSeq(seq, n_blast=20, delay_req=3, delay_rid=60, email=NULL, 
            xmlFolder=NULL,logFolder=NULL, keepInMemory=TRUE,
-           database="chromosome", verbose=TRUE, createLog=FALSE)
+           database="chromosome", verbose=TRUE, createLog=TRUE)
 }
 
 \arguments{
-  \item{seq}{The fasta sequence that should be blasted.}
+  \item{seq}{The fasta sequence that should be blasted (\code{String}).}
   \item{n_blast}{Amount of parallel blast requests, in case \code{seq} is a vector.}
   \item{delay_req}{Seconds between the single Blast requests.}
   \item{delay_rid}{Seconds between the single result requests.}
@@ -34,19 +34,17 @@
  
  The input \code{seq} can be a vector of strings. In that case the sequences are one after another processed. The option \code{n_blast}
  sets then the upper threshold of how many blast requests are send to the NCBI Blast service at a time and kept running there parallel.
- It is here in the users obligation not to misuse the service with too many parallel requests.
- 
- The \code{xmlFolder} parameter specifies the folder to where the XML results will be stored.  In case the folder does not exist, R  will create it.
- 
- For larger projects this option is advisable, as large projects can easily flood the memory.
+ It is here in the users obligation not to misuse the service with too many parallel requests. 
+
+ The \code{xmlFolder} parameter specifies the folder to where the XML results will be stored.  In case the folder does not exist, R will create it.
 
  In case the option \code{keepInMemory} is set to TRUE the Blast results will be kept in memory, otherwise they will
- be just written to the HDD, given the \code{xmlFolder}. Especially if many sequences are send to NCBI it is recommended not to keep the result
- in the memory.
+ be just written to the HDD. Especially if many sequences are send to the blast service it is recommended to drop the result from the memory,
+ meaning to set the option \code{keepinMemory=FALSE}.
  
  If log files should be written (\code{createLog=TRUE}) a log path should be given in \code{logPath}. However, if a xmlPath is given and the
  option \code{createLog=TRUE} is set, then the log folder will be automatically created in the parental folder of the \code{xmlFolder} and is
- called \code{hoardeRlogs}. Setting the option \code{createLog=TRUE} is required to continue crashed blast runs.
+ called \code{hoardeRlogs}
 }
 
 \value{
@@ -59,7 +57,7 @@
 
 \examples{
 \dontrun{
-blastSeq("ACGTGCATCGACTAGCTACGACTACGACTATC")
+blastSeq("ACGTGCATCGACTAGCTACGACTACGACTATC", email="my.name@somewhere.com")
 }
 }
 
