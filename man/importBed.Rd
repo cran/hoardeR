@@ -1,34 +1,36 @@
-\name{exportBed}
-\alias{exportBed}
+\name{importBed}
+\alias{importBed}
 
 \title{
- Exporting a Bed File.
+ Importing a Bed File.
 }
 
 \description{
-  This function exports a standard bed file.
+  This function imports a standard bed file.
 }
 \usage{
-  exportBed(x, file=NULL, header=FALSE)
+  importBed(file, header=FALSE)
 }
 
 \arguments{
-  \item{x}{A data.frame}
   \item{file}{Specifies the filename/path.}
-  \item{header}{Logical, shall a header be written.}
+  \item{header}{Logical, is a header present.}
 }
 
 \details{
- This function exports a data.frame to a standard bed file. If no file name is given, the variable name will be used instead.
+ This function imports a standard bed-file into a data.frame. It is basically a convenience wrapper around \code{read.table}.
 }
 \value{
- A bed file.
+ A \code{data.frame}.
 }
 
 \author{
   Daniel Fischer
 }
 
+\seealso{
+  \code{\link{exportBed}}, \code{\link{read.table}}
+}
 
 \examples{
 \dontrun{
@@ -38,7 +40,8 @@ novelBed <- data.frame(Chr=c(11,18,3),
                          Gene=c("LOC1", "LOC2", "LOC3"))
 
 exportBed(novelBed, file="myLocs.bed")
-exportBed(novelBed, file="myLocs_wHeader.bed", header=TRUE)
+
+novelBed.imp <- importBed(file="myLocs.bed")
 }
 }
 

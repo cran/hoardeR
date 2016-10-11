@@ -1,5 +1,28 @@
 LOG of the CHANGES in the package Test
 
+Version 0.9.1:
+* Typos in manual fixed
+* Typos in vignette fixed
+* Minor bugfixes in 'blastSeq'
+* Added the function 'importBed()'
+* output of 'print.fa()' adjusted
+* Bugfix in 'getFastaFromBed()'
+    - 'version' option wasn't used properly
+* Improvement in 'exportBed'
+    - If file=NULL (default) the variable name is used as file name
+* Improvement in 'exportFA'
+    - If file=NULL (default) the variable name is used as file name
+* Improvements in 'getAnnotation()'
+    - Better guessing of right URL at Ensembl
+* Improvements in 'getFastaFromBed()'
+    - fasta files are now imported using the 'Rsamtools::scanFa' function
+* Improvements in 'plotHit()'
+    - Better guessing of right URL at Ensembl
+    - Bam files that are used in groups are now displayed for better control
+* Improvements in 'summary.fa()'
+    - Output is now better aligned
+* All connections to NCBI use now 'https' instead of 'http'
+
 Version 0.9:
 * Major update for functionality and usability
 * Added the authors@R filed to the Description

@@ -1,9 +1,10 @@
 plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
                     smoothPara=NULL, diagonal=0.25, verbose=TRUE, output=FALSE,
-                    hitSpecies=NULL, hitSpeciesVersion=NULL, origSpecies=NULL,
-                    origSpeciesVersion=NULL, fastaFolder=NULL, release=84,
-                    origAnnot=NULL, hitAnnot=NULL, nTick=5, which=NULL, figureFolder=NULL,
-                    figurePrefix=NULL, indexOffset=0, bamFolder=NULL, bamFiles=NULL, groupIndex=NULL, groupColor=NULL,
+                    hitSpecies=NULL, hitSpeciesAssembly=NULL, origSpecies=NULL,
+                    origSpeciesAssembly=NULL, fastaFolder=NULL, origAnnot=NULL,
+                    hitAnnot=NULL, nTick=5, which=NULL, figureFolder=NULL,
+                    figurePrefix=NULL, indexOffset=0, bamFolder=NULL, bamFiles=NULL,
+                    groupIndex=NULL, groupColor=NULL,
                     countWindow=NULL){
   
 # Store the original values
@@ -13,8 +14,14 @@ plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
   hitAnnotOrig <- hitAnnot
   
 # Input checks
-#  is(!is.numeric(diagonal)) stop("The option 'diagonal' needs to be numeric between 0 and 1.")
-  
+  if(!is.numeric(diagonal)){
+    stop("The option 'diagonal' needs to be numeric between 0 and 1.")   
+  } else {
+    if(diagonal>1) stop("The option 'diagonal' needs to be numeric between 0 and 1.")
+    if(diagonal<0) stop("The option 'diagonal' needs to be numeric between 0 and 1.")
+  }
+
+
   if(!is.null(bamFolder)){
     if(is.null(bamFiles)){
       fls <- list.files(bamFolder, recursive=TRUE, pattern="\\.bam$", full.names=TRUE)
@@ -49,41 +56,78 @@ plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
       stop("Cannot resolve the hit organism gene name from the annotation file.")
     }
 
-    if(!is.null(figureFolder)) png(filename=paste(figureFolder,figurePrefix,hitRun+indexOffset,"-",tempGeneName,".png",sep=""), width=2000, height=1400)
+    if(!is.null(figureFolder)) png(filename=file.path(figureFolder,paste(figurePrefix,hitRun+indexOffset,"-",tempGeneName,".png",sep="")  ), width=2000, height=1400)
     if(verbose) cat("Start to create figure for",tempGeneName,"(",date(),")\n")
   # Import the fasta files
   # ADD HERE STILL THE OPTION FOR AN OWN FASTA FILE!!!
     if(is.null(fastaFolder)){
-      stop("No directory with fasta file given!")    
-    } else {
-      if(is.null(origSpeciesVersion)){
-        temp <- hoardeR::species
-        origSpeciesVersion <- temp$Ensembl.Assembly[temp$Scientific.name==origSpecies]
+      message("No directory with fasta file given! Use the working directory:\n", getwd())    
+      fastaFolder <- getwd()
+    }
+      if(is.null(origSpeciesAssembly)){
+        species.df <- hoardeR::species
+        origSpeciesAssembly <- species.df$Assembly.Name[species.df$Organism.Name==origSpecies]
       }
-      if(verbose) cat("Original species version:", origSpeciesVersion,"\n")
-      if(is.null(hitSpeciesVersion)){
-        temp <- hoardeR::species
-        hitSpeciesVersion <- temp$Ensembl.Assembly[temp$Scientific.name==hitSpecies]
+      if(verbose) cat("Original species version:", origSpeciesAssembly,"\n")
+      if(is.null(hitSpeciesAssembly)){
+        species.df <- hoardeR::species
+        hitSpeciesAssembly <- species.df$Assembly.Name[species.df$Organism.Name==hitSpecies]
       }
-      if(verbose) cat("Hit species version:", hitSpeciesVersion,"\n")
+      if(verbose) cat("Hit species version:", hitSpeciesAssembly,"\n")
       # First the required original fasta file
         dir.create(fastaFolder, showWarnings=FALSE)
-        origSpecies.int <- gsub(" ", "_",tolower(origSpecies))
-        ensemblURL <- paste("ftp://ftp.ensembl.org/pub/release-",release,"/fasta/",origSpecies.int,"/dna/",sep="")
-        fileName <-  paste(cap(origSpecies.int),".",origSpeciesVersion,".dna.chromosome.",hits$origChr[hitRun],".fa.gz",sep="")
-        .file = file.path(fastaFolder, fileName)
-        if(!file.exists(.file)) download.file(paste(ensemblURL,fileName,sep=""), .file)
-        if(verbose) cat("Read original fasta file:\n   ", .file ,"\n")
-        seqOrig <- read.fasta(.file,seqtype="DNA")
+        
+        NCBI.URL.orig <- species.df$NCBI.Url[species.df$Organism.Name==origSpecies][1]
+        filePath <- paste(NCBI.URL.orig,"Assembled_chromosomes/seq/", sep="")
+        CHRfile <- getURL(filePath, ftp.use.epsv = TRUE, dirlistonly = TRUE)
+        CHRfile <- strsplit(CHRfile,"\n")[[1]]
+        CHRfile <- CHRfile[grepl(paste(origSpeciesAssembly, "_chr",hits$origChr[hitRun],".fa.gz",sep=""), CHRfile)]
+        
+        .file = file.path(fastaFolder, CHRfile)
+        if(!file.exists(.file)){
+          if(verbose) cat("Local file not found! Try to download fasta file: ", CHRfile ,"\n")
+          download.file(paste(filePath,CHRfile,sep=""), .file, quiet = TRUE)
+        }
+        if(file.size(.file)<1){
+          cat("File could not be downloaded. If you want to use the assembly", origSpeciesAssembly, "for", species,"please provide the file: ", .file,"\n")       
+        } else {
+          if(verbose) cat("Read original fasta file:\n   ", .file ,"\n")
+          seqOrig <- read.fasta(.file,seqtype="DNA")
+        }
+
+      # And then the hit species  
+        NCBI.URL.hit <- species.df$NCBI.Url[species.df$Organism.Name==hitSpecies][1]
+        filePath <- paste(NCBI.URL.hit,"Assembled_chromosomes/seq/", sep="")
+        CHRfile <- getURL(filePath, ftp.use.epsv = TRUE, dirlistonly = TRUE)
+        CHRfile <- strsplit(CHRfile,"\n")[[1]]
+        CHRfile <- CHRfile[grepl(paste(hitSpeciesAssembly, "_chr",hits$hitChr[hitRun],".fa.gz",sep=""), CHRfile)]
+        
+        .file = file.path(fastaFolder, CHRfile)
+        if(!file.exists(.file)){
+          if(verbose) cat("Local file not found! Try to download fasta file: ", CHRfile ,"\n")
+          download.file(paste(filePath,CHRfile,sep=""), .file, quiet = TRUE)
+        }
+        if(file.size(.file)<1){
+          cat("File could not be downloaded. If you want to use the assembly", hitSpeciesAssembly, "for", species,"please provide the file: ", .file,"\n")       
+        } else {
+          if(verbose) cat("Read hit fasta file:\n   ", .file ,"\n")
+          seqHit <- read.fasta(.file,seqtype="DNA")
+        }       
+        # origSpecies.int <- gsub(" ", "_",tolower(origSpecies))
+        # ensemblURL <- paste("ftp://ftp.ensembl.org/pub/release-",release,"/fasta/",origSpecies.int,"/dna/",sep="")
+        # fileName <-  paste(cap(origSpecies.int),".",gsub(" ","",origSpeciesVersion),".dna.chromosome.",hits$origChr[hitRun],".fa.gz",sep="")
+        # .file = file.path(fastaFolder, fileName)
+        # if(!file.exists(.file)) download.file(paste(ensemblURL,fileName,sep=""), .file)
+        # if(verbose) cat("Read original fasta file:\n   ", .file ,"\n")
+        # seqOrig <- read.fasta(.file,seqtype="DNA")
       # And then the hit species    
-        hitSpecies.int <- gsub(" ", "_",tolower(hitSpecies))
-        ensemblURL <- paste("ftp://ftp.ensembl.org/pub/release-",release,"/fasta/",hitSpecies.int,"/dna/",sep="")
-        fileName <-  paste(cap(hitSpecies.int),".",hitSpeciesVersion,".dna.chromosome.",hits$hitChr[hitRun],".fa.gz",sep="")
-        .file = file.path(fastaFolder, fileName)
-        if(!file.exists(.file)) download.file(paste(ensemblURL,fileName,sep=""), .file)
-        if(verbose) cat("Read hit fasta file:\n   ", .file ,"\n")
-        seqHit <- read.fasta(.file,seqtype="DNA")
-    }
+        # hitSpecies.int <- gsub(" ", "_",tolower(hitSpecies))
+        # ensemblURL <- paste("ftp://ftp.ensembl.org/pub/release-",release,"/fasta/",hitSpecies.int,"/dna/",sep="")
+        # fileName <-  paste(cap(hitSpecies.int),".",gsub(" ","",hitSpeciesVersion),".dna.chromosome.",hits$hitChr[hitRun],".fa.gz",sep="")
+        # .file = file.path(fastaFolder, fileName)
+        # if(!file.exists(.file)) download.file(paste(ensemblURL,fileName,sep=""), .file)
+        # if(verbose) cat("Read hit fasta file:\n   ", .file ,"\n")
+        # seqHit <- read.fasta(.file,seqtype="DNA")
     
     # Getting the constants
     origChr <- hits$origChr[hitRun]
@@ -166,7 +210,7 @@ plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
       origLeft.forPlotting <- seq(origStart,origStartFlank.forPlotting,-window)
       origRight.forPlotting <- seq(origEnd,origEndFlank.forPlotting,window)
       
-      if(verbose) cat("Slots (width/window) in area:", length(origLeft) + length(origRight) + 1,"\n")
+      if(verbose) cat("Slots (width/windowsize) in area:", length(origLeft) + length(origRight) + 1,"\n")
       
     # Get the plotting coordinates
       xRange.forPlotting <- range(c(origLeft.forPlotting,origRight.forPlotting))
@@ -331,49 +375,51 @@ plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
     }
     
     # In case the annot flag is set, add it to the plot
-    if(annot){  
-      origAnnot <- origAnnot[origAnnot$V1==origChr,]
-      origAnnot <- origAnnot[((origAnnot$V4<=xRange[2]) & (origAnnot$V4>=xRange[1]))  ,]
-      origAnnot <- origAnnot[((origAnnot$V5<=xRange[2]) & (origAnnot$V5>=xRange[1]))  ,]
-      origAnnot <- origAnnot[origAnnot$V3=="gene",]
-      if(nrow(origAnnot)[1]>0){
-        for(i in 1:nrow(origAnnot)){
-          lines(c(origAnnot$V4[i],origAnnot$V5[i]), c(1.5,1.5), lwd=5)
-          tempGeneName <-gsub(' \"', '', strsplit(strsplit(origAnnot$V9[i],"gene_name")[[1]][2],'\";')[[1]][1])
-          text(mean(c(origAnnot$V4[i],origAnnot$V5[i])), 1.6,tempGeneName) 
+    if(annot){
+      if(!is.null(origAnnot)){
+      # Casting the coordinates of the annotation files
+        origAnnot$V4 <- as.numeric(origAnnot$V4)
+        origAnnot$V5 <- as.numeric(origAnnot$V5)
+        
+        origAnnot <- origAnnot[origAnnot$V1==origChr,]
+        origAnnot <- origAnnot[((origAnnot$V4<=xRange[2]) & (origAnnot$V4>=xRange[1]))  ,]
+        origAnnot <- origAnnot[((origAnnot$V5<=xRange[2]) & (origAnnot$V5>=xRange[1]))  ,]
+        origAnnot <- origAnnot[origAnnot$V3=="gene",]
+        if(nrow(origAnnot)[1]>0){
+          for(i in 1:nrow(origAnnot)){
+            lines(c(origAnnot$V4[i],origAnnot$V5[i]), c(1.5,1.5), lwd=5)
+            tempGeneName <- getGeneName(origAnnot$V9[i])
+            text(mean(c(origAnnot$V4[i],origAnnot$V5[i])), 1.6,tempGeneName) 
+          }
         }
       }
   
-      hitAnnot <- hitAnnot[hitAnnot$V1==hitChr,]
-      if(HITneg){
-        hitAnnot <- hitAnnot[((hitAnnot$V4>=hitEndFlank) & (hitAnnot$V4<=hitStartFlank))  ,]
-        hitAnnot <- hitAnnot[((hitAnnot$V5>=hitEndFlank) & (hitAnnot$V5<=hitStartFlank))  ,]
-        hitAnnot <- hitAnnot[hitAnnot$V3=="gene",]
-        hitRange <- range(c(hitLeft,hitRight))
-      } else {
-        hitAnnot <- hitAnnot[((hitAnnot$V4<=hitEndFlank) & (hitAnnot$V4>=hitStartFlank))  ,]
-        hitAnnot <- hitAnnot[((hitAnnot$V5<=hitEndFlank) & (hitAnnot$V5>=hitStartFlank))  ,]
-        hitAnnot <- hitAnnot[hitAnnot$V3=="gene",]
-        hitRange <- range(c(hitLeft,hitRight))
-      }
-      
-      if(nrow(hitAnnot)>0){
-
-        for(i in 1:nrow(hitAnnot)){
-          lines(c(hitAnnot$V4[i]+ xRange[1] - hitRange[1], hitAnnot$V5[i] + xRange[1]-hitRange[1]), c(-1.5,-1.5), lwd=5)
-
-          if(grepl("gene_name", hitAnnot$V9[i])){
-            tempGeneName <-gsub(' \"', '', strsplit(strsplit(hitAnnot$V9[i],"gene_name")[[1]][2],'\";')[[1]][1])
-          } else if(grepl("gene=", hitAnnot$V9[i])){
-            tempGeneName <- strsplit(strsplit(hitAnnot$V9[i],"gene=")[[1]][[2]],";")[[1]][[1]]
-          } else if(grepl("gene_id", hitAnnot$V9[i])){
-            tempGeneName <- gsub(' \"', '', strsplit(strsplit(hitAnnot$V9[i],"gene_id")[[1]][2],'\";')[[1]][1])
-          } else {
-            stop("Cannot resolve the hit organism gene name from the annotation file.")
+      if(!is.null(hitAnnot)){
+      # Casting the coordinates of the annotation files
+        hitAnnot$V4 <- as.numeric(hitAnnot$V4)
+        hitAnnot$V5 <- as.numeric(hitAnnot$V5)
+        
+        hitAnnot <- hitAnnot[hitAnnot$V1==hitChr,]
+        if(HITneg){
+          hitAnnot <- hitAnnot[((hitAnnot$V4>=hitEndFlank) & (hitAnnot$V4<=hitStartFlank))  ,]
+          hitAnnot <- hitAnnot[((hitAnnot$V5>=hitEndFlank) & (hitAnnot$V5<=hitStartFlank))  ,]
+          hitAnnot <- hitAnnot[hitAnnot$V3=="gene",]
+          hitRange <- range(c(hitLeft,hitRight))
+        } else {
+          hitAnnot <- hitAnnot[((hitAnnot$V4<=hitEndFlank) & (hitAnnot$V4>=hitStartFlank))  ,]
+          hitAnnot <- hitAnnot[((hitAnnot$V5<=hitEndFlank) & (hitAnnot$V5>=hitStartFlank))  ,]
+          hitAnnot <- hitAnnot[hitAnnot$V3=="gene",]
+          hitRange <- range(c(hitLeft,hitRight))
+        }
+        
+        if(nrow(hitAnnot)>0){
+  
+          for(i in 1:nrow(hitAnnot)){
+            lines(c(hitAnnot$V4[i]+ xRange[1] - hitRange[1], hitAnnot$V5[i] + xRange[1]-hitRange[1]), c(-1.5,-1.5), lwd=5)
+            tempGeneName <- getGeneName(hitAnnot$V9[i])  
+            text(mean(c(hitAnnot$V4[i]+ xRange[1] - hitRange[1], hitAnnot$V5[i] + xRange[1]-hitRange[1])), -1.6, tempGeneName) 
+            
           }
-
-          text(mean(c(hitAnnot$V4[i]+ xRange[1] - hitRange[1], hitAnnot$V5[i] + xRange[1]-hitRange[1])), -1.6, tempGeneName) 
-          
         }
       }
     } # if(annot)
@@ -393,6 +439,15 @@ plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
         counts[bamRun,] <- bamCount(fls[bamRun], features, verbose=FALSE)        
       }
 
+      if(verbose){
+        cat("Amount of defined groups:", max(groupIndex),"\n")
+        for(groupRun in 1:max(groupIndex)){
+          cat("Bam files used in group ",groupRun,"\n")
+          cat("  ", paste(fls[groupIndex==groupRun],collapse="\n   "),"\n")
+        }  
+       cat("Bam files") 
+      }
+      
       countsGroups <- list()
       for(groupRun in 1:max(groupIndex)){
         countsGroups[[groupRun]] <- counts[groupIndex==groupRun,]
@@ -437,6 +492,6 @@ plotHit <- function(hits, flanking=1, window=NULL, annot=TRUE, coverage=FALSE,
     
     if(output) list(SHit=scoresHit, SL=scoresLeft,SR=scoresRight, scoreMat=scoreMatrix)
     if(!is.null(figureFolder)) dev.off()
-    if(verbose) cat("\nFigure created (",date(),")\n")
+    if(verbose) message("\nFigure created (",date(),")")
   }
 }
