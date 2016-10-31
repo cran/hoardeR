@@ -26,7 +26,9 @@ command
 install.packages("hoardeR")
 ```
 
-There are no special system requirements for the installation. However, there are a few package dependencies that have to be fulfilled.
+There are no special system requirements for the installation when the package runs on
+a Linux computer. To handle gz files on Windows, the command 'gzip' is used from the console and needs to be available (what should normally
+be the case). There are a few package dependencies that have to be fulfilled.
 Normally these dependencies are installed automatically, too. If not, missing Cran packages need to be installed prior to the
 installation as above, with
 
@@ -40,6 +42,14 @@ and missing Bioconductor packages (e.g. the package `Biostrings`) with
 source("https://bioconductor.org/biocLite.R")
 biocLite("Biostrings")
 ```
+If during the first installation the Bioconductor are not installed, they can be installed
+all together by typingwith
+
+```{r eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite(c('Biostrings', 'GenomicRanges', 'bamsignals', 'IRanges', 'Rsamtools', 'snpStats'))
+```
+
 
 The latest developer version, of `hoardeR` is located on GitHub, here
 
@@ -499,7 +509,7 @@ calculates the similarity between them and stores the best result. That way, eac
 With that, the figure for the cow/pig similarity would look like this:
 
 ```{r, fig.retina = NULL, fig.cap="Similarity between Pig and Cow", echo=FALSE}
-knitr::include_graphics("./pigFlanking.jpg")
+knitr::include_graphics("./pigFlanking.png")
 ```
 
 On the top part of the plot the annotation of Bos taurus is plotted, on the bottom part the one of Sus scrofa, followed by the axes of the chromosomal regions. The vertical center line indicates the hit, further highlighted with the black spots on the chromosomal regions. It appears that
@@ -534,7 +544,7 @@ groups for the files (which needs to be in the same, lexicographical order, `plo
 and then the color for each group. The figure would look then like this.
 
 ```{r, fig.retina = NULL, fig.cap="Similarity between Pig and Cow, with added coverage and annotation", echo=FALSE}
-knitr::include_graphics("./coverageExample.jpg")
+knitr::include_graphics("./coverageExample.png")
 ```
 
 

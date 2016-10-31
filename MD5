@@ -1,4 +1,4 @@
-86d95123a8c60b0fa06c2ba7ed438dff *DESCRIPTION
+5465e86ce5cabd808758a68bab9b25a1 *DESCRIPTION
 2b806f01c41da00a49b5b3258d7d8c1c *NAMESPACE
 de244ccc964def04024ba72d329c9c3d *R/aaa.R
 127c06ad8eb2d56003f6dddcfad4d17e *R/blastSeq.R
@@ -9,7 +9,7 @@ b913972adca3ceea2783d287b2d28169 *R/exportBed.R
 5c3df4dbe337880ef468a26c464894b7 *R/getAnnotation.R
 5d051f659cef706bea400398221bd112 *R/getBlastResult.R
 cddd5a6aef5ef9771d4280b42c61ac71 *R/getEnsgInfo.R
-f723e0fff82844256bd8773fa7541d57 *R/getFastaFromBed.R
+a955e11f161b5728dd0fc335bfc5bf6f *R/getFastaFromBed.R
 7bc61a6ec9f5d8d35ef5fca17af6f05d *R/getGeneLocation.R
 d5d1431faf294b81f51d6d77a79fc661 *R/getGeneSeq.R
 064e993effd0ea145fd02ab9637b6c57 *R/helpFunctions.R
@@ -18,7 +18,7 @@ e0ffa8d462acdc14a5273de4e12975f4 *R/importBed.R
 91ae59f1c55520d5f49ae1d5687c4584 *R/importFA.R
 97099750f9d7d162c15312266d0d0ae5 *R/importXML.R
 b57d8674069c38121156ee2acdc45fab *R/intersectXMLAnnot.R
-cb44ab44aaae3d2e8a1fcab8ce67bd36 *R/plotHit.R
+4495a8d1466a38f382e05d09af3c1d01 *R/plotHit.R
 85f11ee8bac6bdb4f77448df55a4ff79 *R/print.blastRes.R
 01b7c072273adb25cd3339988181bdc4 *R/print.fa.R
 6ecef8612f291a006505acc6716d4343 *R/sendFA.R
@@ -30,12 +30,12 @@ a8d423aebe387aa1566d8827d38ca21d *R/subGProbs.R
 9d75a334ba4f9f367281d52dd3702cd0 *R/tableSpecies.R
 cc10c41c712ba875f22c17b2ccb9045d *R/targetScan.R
 ccd530b0299c12896dbb5966a0a01bfa *R/xxx.R
-ece92341de6db23813eafc499c491b00 *build/vignette.rds
+932cb724284e04502a5ab0c699f9a153 *build/vignette.rds
 3bd242de8db959bbc49bfb63526c7f63 *data/species.rda
-0f335a12564d5eed8d51e204095011e9 *inst/ChangeLog
-31f6491b74cd6938bef5917c1ff187e7 *inst/doc/hoardeR-vignette.R
-18c50c48017d85f486d07cfde2fc2b1f *inst/doc/hoardeR-vignette.Rmd
-e5fe17f39896e3da251f7cd2ce753cb5 *inst/doc/hoardeR-vignette.pdf
+8c4c3e14e43ca79d2d37ae42b44d0e68 *inst/ChangeLog
+e429dc58f21175ac8b9590233b98b6dd *inst/doc/hoardeR-vignette.R
+22620333b79548be86824854628671ca *inst/doc/hoardeR-vignette.Rmd
+5fa7eaf0ec1d1d3f591a18dcf72cb7f9 *inst/doc/hoardeR-vignette.pdf
 57deb1e3d12cde1f5a98b701d900086c *man/blastSeq.Rd
 036261546d09265e94a0e4705e930b77 *man/exportBed.Rd
 5a7cd2aae65f3a4f0c1dea9a5d48669c *man/exportFA.Rd
@@ -45,7 +45,7 @@ d9ee77f8e81e1741150c2f59515434d1 *man/getEnsgInfo.Rd
 805f979c5264a7f8b5910fcc32f4a70b *man/getFastaFromBed.Rd
 5d8a26bd1792a2905371f75c66f8f99c *man/getGeneLocation.Rd
 9f463e4b61f401c15f1f76f6be580e2e *man/getGeneSeq.Rd
-ea54b5045f7a5ee18a6bc01dafe94ead *man/hoardeR-package.Rd
+0a8beb74eac8cc5ad45c84f852b33751 *man/hoardeR-package.Rd
 ece0c50c23e2ce2736c9cddc24760096 *man/importBed.Rd
 21eccae7e32ced76cf36bd99f702f650 *man/importBlastTab.Rd
 2af32ac124ab9dbc543f65aa66de18f7 *man/importFA.Rd
@@ -60,6 +60,6 @@ e89494e8d64af5084cfa1cda3c516789 *man/subDose.Rd
 526b3064a7da7e3f6e34e4abc1f1af1f *man/summary.fa.Rd
 acb64ff759ce793991182620bb123b93 *man/tableSpecies.Rd
 e837d92bcc17036681be83c0b2cdf262 *man/targetScan.Rd
-3e41f85c6014e3660693a538e3f18eaf *vignettes/coverageExample.jpg
-18c50c48017d85f486d07cfde2fc2b1f *vignettes/hoardeR-vignette.Rmd
-b09fe0fb174254e881e6c9570a3e3b30 *vignettes/pigFlanking.jpg
+4b86f86ca5668e451449c5556e97af19 *vignettes/coverageExample.png
+22620333b79548be86824854628671ca *vignettes/hoardeR-vignette.Rmd
+c12bd25a8130cfb16d57ba7e2e282b6f *vignettes/pigFlanking.png
