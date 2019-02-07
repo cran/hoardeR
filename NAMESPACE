@@ -1,22 +1,19 @@
-import(httr, XML, stringr, MASS, R.utils, data.table)
+import(httr, XML, stringr, MASS, R.utils, data.table, GenomicTools.fileHandler)
 
 importFrom("bamsignals", bamCount)
 importFrom("Biostrings", nucleotideSubstitutionMatrix, pairwiseAlignment, subseq)
 importFrom("GenomicRanges", GRanges)
-importFrom("GenomicTools", importGFF3)
-importFrom("graphics", axis, lines, plot, polygon, rect, text)
+importFrom("graphics", axis, lines, plot, polygon, rect, text, par)
 importFrom("grDevices", colorRampPalette, dev.off, png)
 importFrom("IRanges", IRanges)
+importFrom("KernSmooth", bkde)
 importFrom("RCurl", getURL, getCurlHandle)
-importFrom("Rsamtools", scanFa)
+importFrom("Rsamtools", scanFa, scanBam)
+importFrom("S4Vectors", DataFrame)
 importFrom("seqinr", read.fasta, comp)
-importFrom("stats", loess, median, predict, quantile)
+importFrom("stats", loess, median, predict, quantile, density)
 importFrom("utils", download.file, read.csv, read.table, setTxtProgressBar, txtProgressBar, write.table, sessionInfo)
 
-export(importBed, importFA, blastSeq,exportBed, exportFA, findSpecies, getEnsgInfo, getGeneLocation, getGeneSeq, importXML,
-       importBlastTab, intersectXMLAnnot,
-       subDose, subPhased, subGprobs, targetScan, tableSpecies, species, getAnnotation,
+export(coverageDensity, blastSeq, findSpecies, getEnsgInfo, getGeneLocation, getGeneSeq,
+       getSequenceFromNCBI, intersectXMLAnnot, plotCoverage, subDose, subPhased, subGprobs, targetScan, tableSpecies, species, getAnnotation,
        plotHit, getFastaFromBed)
-
-S3method(print,fa)
-S3method(summary,fa)

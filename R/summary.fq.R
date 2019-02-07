@@ -1,9 +1,9 @@
-summary.fa <- function(object, ...){
+summary.fq <- function(object, ...){
 
-  .Deprecated("GenomicTools.fileHandler::summary.fa", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  .Deprecated("GenomicTools.fileHandler::summary.fq", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
   
    nCharObj <- nchar(object)
-   cat("Summary of fa object\n")
+   cat("Summary of fq object\n")
    cat("--------------------\n")
    cat("Sequences      :",length(object),"\n")
    cat("Minimum length :",min(nCharObj),"\n")

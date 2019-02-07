@@ -1,7 +1,7 @@
-`print.fa` <- function(x, n=2, seq.out=50, ...){
-
-  .Deprecated("GenomicTools.fileHandler::print.fa", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")  
-
+`print.fq` <- function(x, n=2, seq.out=50, ...){
+  
+  .Deprecated("GenomicTools.fileHandler::print.fq", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  
   if(!is.numeric(n)) stop("The argument n has to be numeric.")
   if(n>length(x)){
     n <- length(x)
@@ -15,5 +15,5 @@
     }
   }
   print(X,...)
-  if(n<length(x)) message("Fasta sequences ommited to print: ", length(x)-n)
+  if(n<length(x)) message("Fastq sequences ommited to print: ", length(x)-n)
 } 
