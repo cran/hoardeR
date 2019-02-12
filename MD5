@@ -1,4 +1,4 @@
-041102b33fede5fc13e8effd4568fc79 *DESCRIPTION
+0a0d3431b1d9eaa4e8b480f94f824996 *DESCRIPTION
 ecd31dc669b7002bd2e10f266bee8f0f *NAMESPACE
 de244ccc964def04024ba72d329c9c3d *R/aaa.R
 781980e5f977fa216a4432b3439dab27 *R/blastSeq.R
@@ -32,10 +32,10 @@ cc10c41c712ba875f22c17b2ccb9045d *R/targetScan.R
 ccd530b0299c12896dbb5966a0a01bfa *R/xxx.R
 8fee80131f7e595bdbd4fec03235fb26 *build/vignette.rds
 3bd242de8db959bbc49bfb63526c7f63 *data/species.rda
-24bfa683a3d793b46b7a8d0d5dff43e2 *inst/ChangeLog
-efaba5150469087618a252971e720f50 *inst/doc/hoardeR-vignette.R
-34765d61f3b3888de11a9d2cf7f5f4c3 *inst/doc/hoardeR-vignette.Rmd
-024ba8870541ee9636e4d5dd8f772b53 *inst/doc/hoardeR-vignette.pdf
+f66803fa96ef1eee72ac4eb818940edd *inst/ChangeLog
+939516e4426462dc30112d69ff95efbc *inst/doc/hoardeR-vignette.R
+000aa37f4faac2c82cd22c8553302a95 *inst/doc/hoardeR-vignette.Rmd
+42cec8fe8bb7753d2e3e6ede30fc95dd *inst/doc/hoardeR-vignette.pdf
 23ce1bfb56439e2afbc7a0cf5680b729 *man/blastSeq.Rd
 ff9aeae4d96b9bed596c1056063dd9e1 *man/coverageDensity.Rd
 10abe151814215ad967822296881f1ab *man/findSpecies.Rd
@@ -45,7 +45,7 @@ d9ee77f8e81e1741150c2f59515434d1 *man/getEnsgInfo.Rd
 5d8a26bd1792a2905371f75c66f8f99c *man/getGeneLocation.Rd
 9f463e4b61f401c15f1f76f6be580e2e *man/getGeneSeq.Rd
 945081163762199257641afa8d3fc2f7 *man/getSequenceFromNCBI.Rd
-147c78eb278eb6b15ecef1ca32929446 *man/hoardeR-package.Rd
+a0c2da558cdcd6eca8d1ae1f7bc2a2d0 *man/hoardeR-package.Rd
 47e35e308fe2bc39da633aa767632a68 *man/intersectXMLAnnot.Rd
 f117a4a450527687f44c18a3e078a7a7 *man/plotCoverage.Rd
 7b091bc9a48ea54690e8d290d93dadbf *man/plotHit.Rd
@@ -57,6 +57,6 @@ e89494e8d64af5084cfa1cda3c516789 *man/subDose.Rd
 526b3064a7da7e3f6e34e4abc1f1af1f *man/summary.fa.Rd
 acb64ff759ce793991182620bb123b93 *man/tableSpecies.Rd
 e837d92bcc17036681be83c0b2cdf262 *man/targetScan.Rd
-4b86f86ca5668e451449c5556e97af19 *vignettes/coverageExample.jpg
-34765d61f3b3888de11a9d2cf7f5f4c3 *vignettes/hoardeR-vignette.Rmd
+4b86f86ca5668e451449c5556e97af19 *vignettes/coverageExample.png
+000aa37f4faac2c82cd22c8553302a95 *vignettes/hoardeR-vignette.Rmd
 c12bd25a8130cfb16d57ba7e2e282b6f *vignettes/pigFlanking.png
