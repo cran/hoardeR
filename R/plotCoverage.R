@@ -6,7 +6,8 @@ plotCoverage <- function(x, use.sqrt=TRUE){
   if(use.sqrt) maxYValue <- sqrt(maxYValue)
   
   # If the input is not of class coverageDensity it is assumed to be a path that leeds to a set of bam files  
-  if(class(x)!="coverageDensity") x <- coverageDensity(x)
+  #if(class(x)!="coverageDensity") x <- coverageDensity(x)
+  if(!inherits(x, "coverageDensity")) x <- coverageDensity(x)
 
   par(mfrow=c(ceiling(sqrt(length(x))), floor(sqrt(length(x))) ),
       oma = c(5,4,0,0) + 0.1,
